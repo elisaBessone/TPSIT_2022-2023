@@ -19,8 +19,10 @@ def chatServer():
         s.bind((HOST, PORT))
         while True:
             msg = s.recvfrom(BUFFER_SIZE)
+            print(msg)
             msg = msg[0].decode('utf8')
             print(msg)
+
 
 
 if __name__ == "__main__":
