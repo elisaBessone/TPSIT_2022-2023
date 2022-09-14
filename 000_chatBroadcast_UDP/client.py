@@ -8,7 +8,7 @@ PORT = 5000"""
 def chatClient():
     #richiedo indirizzo ip, porta e nome utente
     #print("Client in esecuzione: inserire INDIRIZZO IP, il numero della PORTA e il NOME UTENTE")
-    es, host, port, nome = sys.argv
+    _, host, port, nome = sys.argv
     print(host, port, nome)
     with socket(AF_INET, SOCK_DGRAM) as s:
         while True:
