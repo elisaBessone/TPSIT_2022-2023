@@ -1,6 +1,9 @@
 #Bessone Elisa      classe 5BROB
 #creazione di una chat UDP
+
 from socket import SOCK_DGRAM, socket, AF_INET
+from struct import pack
+from packet import Packet
 """HOST = "192.168.95.255"  #INDIRIZZO DI BROADCAST PER INVIARE A TUTTA LA RETE
 PORT = 5000"""
 
@@ -17,17 +20,21 @@ def chatClient(host, port, name):
     #print("Client in esecuzione: inserire INDIRIZZO IP, il numero della PORTA e il NOME UTENTE")
     with socket(AF_INET, SOCK_DGRAM) as s:
         while True:
-            utente = "L'utente: " + name + ' ha inviato il messagio: '
+            #utente = "L'utente: " + name + ' ha inviato il messagio: '
             msg = input("Inserire il messaggio da inviare: (se vuoi chiudere la connessione scrivi exit )")   
             #msg = "hello world"
+            
+            msg_packet = Packet(name, msg)
+            buffer = msg_packet.to_bytes()
+            print(buffer)
 
             if (msg.upper() == "EXIT"):     #! se voglio disconnettermi scrivo exit
                 break
             
-            msg = utente + msg
-            msg = msg.encode('utf8') 
+            #msg = utente + msg
+            #msg = msg.encode('utf8') 
             
-            s.sendto(msg, (host, int(port)))
+            s.sendto(buffer, (host, int(port)))
 
         print("Connessione chiusa")
 

@@ -2,7 +2,7 @@
 #creazione di una chat UDP
 
 from socket import AF_INET, SOCK_DGRAM, socket
-
+from packet import Packet
 BUFFER_SIZE = 1024
 HOST = '0.0.0.0'  #!localhost 127.0.0.1, interfaccia particolare (più schede di rete) 0.0.0.0
 PORT = 5000
@@ -19,9 +19,8 @@ def chatServer():
         s.bind((HOST, PORT))
         while True:
             msg = s.recvfrom(BUFFER_SIZE)
-            #print(msg)
-            msg = msg[0].decode('utf8')
-            print(msg)
+            pkt = Packet.from_bytes(msg[0])
+            print("l'username: " + pkt.username + " ha inviato il messaggio: " + pkt.message) 
 
 
 
