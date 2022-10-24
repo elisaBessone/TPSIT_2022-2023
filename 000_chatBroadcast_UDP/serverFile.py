@@ -1,6 +1,7 @@
 #Bessone Elisa      classe 5BROB
 #creazione di una chat UDP
 
+from distutils.file_util import write_file
 from socket import AF_INET, SOCK_DGRAM, socket
 from packet import Packet
 BUFFER_SIZE = 1024
@@ -17,10 +18,21 @@ def chatServer():
     ##* with socket(AF_INET, SOCK_DGRAM) as s:   #per non scrivere s.close() 
     with socket(AF_INET, SOCK_DGRAM) as s:
         s.bind((HOST, PORT))
+        file = []
         while True:
-            msg = s.recvfrom(BUFFER_SIZE)
-            pkt = Packet.from_bytes(msg[0])
-            print(f"L'utente {pkt.username} ha inviato il messaggio {pkt.message}.")
+            msg, address = s.recvfrom(BUFFER_SIZE)
+
+            pkt = Packet.from_bytes(msg)
+            if pkt.status == Packet.NEW_FILE:
+                file = []
+
+            if pkt.data and len(pkt.data) > 0:
+                file.append(pkt.data)
+
+            if pkt.status == Packet.END_FILE:
+                write_file(b''.join(file))                
+
+            #print(f"L'utente {pkt.username} ha inviato il messaggio {pkt.message}.")
 
 
 if __name__ == "__main__":
