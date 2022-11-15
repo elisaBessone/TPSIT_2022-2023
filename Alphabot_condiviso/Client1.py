@@ -5,7 +5,6 @@ import logging
 import socket
 import threading as thr
 import time
-from Packet import Packet
 
 registered = False
 #nickname = ""
@@ -38,8 +37,8 @@ def main():
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #creo un socket TCP / IPv4, primo che manda, creo la base che fa tutto
     s.connect(SERVER)       #connessione al server
 
-    #ricev = Receiver(s) #riceve i messaggi, per far modo che il server quando rimanda il messaggio ai client arriva a tutti
-    #ricev.start()
+    ricev = Receiver(s) #riceve i messaggi, per far modo che il server quando rimanda il messaggio ai client arriva a tutti
+    ricev.start()
 
     while True:
         #time.sleep(0.2) 
@@ -47,12 +46,6 @@ def main():
         comando = input("Inserisci il comando >>> ") #prende in input dall'utente il comando
         durata = input("Inserisci la durata dei movimenti >>> ") #prende in input dall'utente la durata del movimento in secondi.
         
-        msg = Packet(comando, durata)
-        buffer = msg.packet.to_bytes()
-        print(buffer)
-
-        s.sendto(buffer, (SERVER))
-
         if(comando.upper() == 'W'): #avanti
             print("comando ricevuto", comando)
             time.sleep(0.5)
@@ -65,24 +58,26 @@ def main():
         elif(comando.upper() == 'A'): #sinistra
             print("comando ricevuto", comando)
             time.sleep(0.5)
+        elif(comando.upper() == 'RIPRENDI'):
+            print("comando ricevuto", comando)
+            time.sleep(0.5)
         else:
             comando = 'ESCI' #fermo
             print("comando ricevuto", comando)
             time.sleep(0.5)
         
         #invio del comando e della durata del movimento in secondi.
-        #s.sendall(comando.encode("utf-8")) #manda il messaggio al server
-        #s.sendall(durata.encode("utf-8"))
+        s.sendall(comando.encode("utf-8")) #manda il messaggio al server
+        s.sendall(durata.encode("utf-8"))
 
         if 'exit' in comando:   #In caso si dovesse interrompere la connessione
-            #ricev.stop_run()    #interrompe la connessione
+            ricev.stop_run()    #interrompe la connessione
             logging.info("Disconnessione...")
             break
 
-    #ricev.join()
+    ricev.join()
     s.close()
 
 if __name__ == "__main__":
-    SERVER=('127.0.0.1', 5000)
-    #SERVER=('192.168.0.141', 5000)
+    SERVER=('127.0.0.1',3450)
     main()

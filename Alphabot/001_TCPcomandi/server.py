@@ -129,7 +129,7 @@ def main():
 
     running = True
    
-    connessione, indirizzo = s.accept()   #connessioni dei client
+    connessione, _ = s.accept()   #connessioni dei client
     
 
     #client = Classe_Thread(connessione, indirizzo, Ab)
