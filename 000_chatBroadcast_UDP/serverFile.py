@@ -3,7 +3,7 @@
 
 from distutils.file_util import write_file
 from socket import AF_INET, SOCK_DGRAM, socket
-from packet import Packet
+from packetFile import Packet
 BUFFER_SIZE = 1024
 HOST = '0.0.0.0'  #!localhost 127.0.0.1, interfaccia particolare (più schede di rete) 0.0.0.0
 PORT = 5000
@@ -32,7 +32,6 @@ def chatServer():
             if pkt.status == Packet.END_FILE:
                 write_file(b''.join(file))                
 
-            #print(f"L'utente {pkt.username} ha inviato il messaggio {pkt.message}.")
 
 
 if __name__ == "__main__":

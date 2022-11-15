@@ -9,10 +9,10 @@ class Packet:
     GO_ON = 1
     END_FILE = 2
 
-    def __init__(self, status, file):
+    def __init__(self, status, data):
         #validazione username e messagge
         self.status = status
-        self.file = file
+        self.data = data
     
     def to_bytes(self):
         buffer = b''
@@ -31,7 +31,7 @@ class Packet:
         return Packet(status, size)
 
 def run_tests():
-    pkt0 = Packet("user", "message")
+    pkt0 = Packet(GO_FILE, "message")
     pkt1 = pkt0.from_bytes(pkt0.to_bytes())
     assert(pkt0.message == pkt1.message)    #genera errore se nn è True
     assert(pkt0.username == pkt1.username)    #genera errore se nn è True

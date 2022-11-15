@@ -8,7 +8,7 @@ ed è necessario stabilire quando tutti i pacchetti sono stati inviati."""
 
 from socket import SOCK_DGRAM, socket, AF_INET
 from struct import pack
-from packet import Packet
+from packetFile import Packet
 """HOST = "192.168.95.255"  #INDIRIZZO DI BROADCAST PER INVIARE A TUTTA LA RETE
 PORT = 5000"""
 
@@ -25,7 +25,7 @@ def chatClient(host, port, name):
     #print("Client in esecuzione: inserire INDIRIZZO IP, il numero della PORTA e il NOME UTENTE")
     receiver = (host, port)
     with socket(AF_INET, SOCK_DGRAM) as s:
-        with open("input.pdf", "rb") as f:
+        with open("packet.py", "rb") as f:
             s.sendto(Packet(Packet.NEW_FILE, b'').to_bytes(), receiver)
 
             while True:
@@ -37,6 +37,6 @@ def chatClient(host, port, name):
                 s.sendto(Packet(Packet.END_FILE, b'').to_bytes(), receiver)
 
 if __name__ == '__main__':
-    host, port, name = input_value()
-
+    #host, port, name = input_value()
+    host, port, name = "127.0.0.1", 5000, "eli"
     chatClient(host, port, name)
