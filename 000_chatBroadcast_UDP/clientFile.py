@@ -7,7 +7,6 @@ Ogni pacchetto dovrà includere la sua lunghezza (saranno tutti di 4KB, ma l'ult
 ed è necessario stabilire quando tutti i pacchetti sono stati inviati."""
 
 from socket import SOCK_DGRAM, socket, AF_INET
-from struct import pack
 from packetFile import Packet
 """HOST = "192.168.95.255"  #INDIRIZZO DI BROADCAST PER INVIARE A TUTTA LA RETE
 PORT = 5000"""
@@ -23,18 +22,22 @@ def input_value():
 def chatClient(host, port, name):
     #richiedo indirizzo ip, porta e nome utente
     #print("Client in esecuzione: inserire INDIRIZZO IP, il numero della PORTA e il NOME UTENTE")
-    receiver = (host, port)
-    with socket(AF_INET, SOCK_DGRAM) as s:
-        with open("packet.py", "rb") as f:
-            s.sendto(Packet(Packet.NEW_FILE, b'').to_bytes(), receiver)
+    receiver = ("127.0.0.1", 5000)
 
-            while True:
-                data = True
-                while data:
-                    data = f.read(4096)                    
-                    if data:
-                        s.sendto(Packet(Packet.GO_ON,b'').to_bytes(), receiver)
-                s.sendto(Packet(Packet.END_FILE, b'').to_bytes(), receiver)
+    with socket(AF_INET, SOCK_DGRAM) as s:
+        with open("BESSONE_tipologiaA_DEFINITIVO.pdf", "rb") as f:
+            s.sendto(Packet(Packet.NEW_FILE, b'').to_bytes(), receiver)
+            
+            data = True
+            while data:
+                data = f.read(4096)
+
+                if data:
+                    s.sendto(Packet(Packet.GO_ON, data).to_bytes(), receiver)
+                    print('pacchetto inviato')
+            
+            s.sendto(Packet(Packet.END_FILE, b'').to_bytes(), receiver)
+            print("fine invio")
 
 if __name__ == '__main__':
     #host, port, name = input_value()
