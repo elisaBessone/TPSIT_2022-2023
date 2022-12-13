@@ -1,2 +1,17 @@
 THREAD
+Andando a richiamare più volte una funzione senza thread il programma viene eseguito in modo sequenziale.
+Se eseguo il programma facendo partire più thread, questi non vengono eseguiti in modo sequenziale. 
+Se inserisco un join sui thread viene eseguito in modo sequenziale. 
+Non posso sapere come vengono eseguiti i thread, anche l'inizio non posso "controllarlo"
 
+t = threading.Thread(target=funzione, name = "Primo")
+
+- target per inidicare su quale funzione far partire il thread
+- name per indicare il nome del thread
+- args per passare i parametri al Thread
+
+
+t.start()  fa partire il thread
+
+t.join() fa bloccare il programma finchè il thread su cui lo richiamo non è concluso. con questaa funzione ho più
+        controllo del mio programma --> sequenziale

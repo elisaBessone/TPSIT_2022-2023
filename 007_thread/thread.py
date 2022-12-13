@@ -16,10 +16,13 @@ def main():
             #deve far partire il mio threas, gli passo come parametro:funzione
     
     t = threading.Thread(target=funzione, name = "Primo")  #args per dire che parametro passo al thread
-    t.start()   #capisce che deve far partire il metodo run
-
+                                            #name = "" per dire il nome che voglio dare al thread
+    t.start()   #capisce che deve far partire il metodo run. inizio del thread
+    t.join()    #blocco il programma finché non ha finito il thread t --> ho più controllo
+    
     q = threading.Thread(target=funzione, name = "Secondo")   # , args=(2,))
     q.start() 
+    q.join()
 
     funzione()
     print("fine chiamata main")
