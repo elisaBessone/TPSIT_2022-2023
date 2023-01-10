@@ -15,3 +15,5 @@ t.start()  fa partire il thread
 
 t.join() fa bloccare il programma finchè il thread su cui lo richiamo non è concluso. con questaa funzione ho più
         controllo del mio programma --> sequenziale
+
+passare una classe a myClassThread --> ereditarietà
