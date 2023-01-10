@@ -1,12 +1,13 @@
 from socket import socket, AF_INET, SOCK_STREAM
-from BessoneElisaFile import File
-from BessoneElisaComandi import Comandi
+from file import File
+from comandi import Comandi
 BUFFER_SIZE = 4096
 
 def run_client(host, port, comando):
     receiver = ((host, port))
     with socket(AF_INET, SOCK_STREAM) as s:
         s.connect(receiver)
+        comando = input("Inserisci il comando>> ")
         print(f"COMANDO>> {comando}")
 
         if comando == Comandi.SALVA:
@@ -24,7 +25,7 @@ def run_client(host, port, comando):
             print("TERMINO IL PROGRAMMA.")
 
 if __name__ == '__main__':
-    nome_file = "BessoneElisaConfclient.txt"
+    nome_file = "confClient.txt"
     host, port, comando = File.leggiFile(nome_file)
     print (host, port, comando)
     run_client(host, port, comando)
